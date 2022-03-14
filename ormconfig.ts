@@ -1,4 +1,4 @@
-export default 
+module.exports =
 {
     "type":        process.env.DB_TYPE,
     "host":        process.env.DB_HOST,
@@ -7,5 +7,5 @@ export default
     "password":    process.env.DB_PASSWORD,
     "database":    process.env.DATABASE,
     "synchronize": true,
-    "entities":    "dist/**/*.entity{.ts,.js}",
+    "entities":    ["dist/**/*.entity{.ts,.js}"],
  }
