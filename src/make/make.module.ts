@@ -9,6 +9,5 @@ import { Make } from './entities/make.entity';
     imports:     [TypeOrmModule.forFeature([ Make ])],
     controllers: [MakeController],
     providers:   [MakeService],
-    exports:     [MakeService]
 })
 export class MakeModule {}
