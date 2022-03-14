@@ -7,6 +7,8 @@ export class Make
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        unique: true
+    })
     make_name: string;
 }
