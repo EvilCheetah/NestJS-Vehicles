@@ -1,5 +1,5 @@
 import { Make } from "src/make/entities/make.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
 
 @Entity()
@@ -12,9 +12,11 @@ export class Model
     model_name: string;
 
     @ManyToOne( 
-        (type) => Make,
-        make => make.id
+        (type) => Make
     )
+    @JoinColumn({ name: 'make_id' })
     make: Make;
 
+    @RelationId( (model: Model) => model.make )
+    make_id: number;
 }
