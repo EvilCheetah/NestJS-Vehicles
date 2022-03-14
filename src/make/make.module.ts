@@ -8,6 +8,7 @@ import { Make } from './entities/make.entity';
 @Module({
     imports:     [TypeOrmModule.forFeature([ Make ])],
     controllers: [MakeController],
-    providers:   [MakeService]
+    providers:   [MakeService],
+    exports:     [MakeService]
 })
 export class MakeModule {}
