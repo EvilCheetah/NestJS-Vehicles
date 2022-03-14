@@ -1,33 +1,64 @@
-import { Injectable } from '@nestjs/common';
-import { CreateModelDto } from './dto/create-model.dto';
-import { UpdateModelDto } from './dto/update-model.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Model } from './entities/model.entity';
+import { CreateModelDTO } from './dto/create-model.dto';
+import { UpdateModelDTO } from './dto/update-model.dto';
 
 
 @Injectable()
 export class ModelService 
 {
-    create(createModelDto: CreateModelDto) 
+    constructor(
+            @InjectRepository(Model)
+        private readonly modelRepository: Repository<Model>
+    ) {}
+
+    create(createModelDTO: CreateModelDTO): Promise<Model>
     {
-        return 'This action adds a new model';
+        const model = this.modelRepository.create(createModelDTO);
+
+        return this.modelRepository.save(model);
     }
 
     findAll() 
     {
-        return `This action returns all model`;
+        return this.modelRepository.find({
+            relations: ['make']
+        });
     }
 
-    findOne(id: number) 
+    async findOne(id: number) 
     {
-        return `This action returns a #${id} model`;
+        const model = await this.modelRepository.findOne(
+            id,
+            { relations: ['make'] }
+        );
+
+        if ( !model )
+            throw new NotFoundException(`Model with id: '${id}' was NOT FOUND`);
+        
+        return model;
     }
 
-    update(id: number, updateModelDto: UpdateModelDto) 
+    async update(id: number, updateModelDTO: UpdateModelDTO) 
     {
-        return `This action updates a #${id} model`;
+        const model = await this.modelRepository.preload({
+            id,
+            ...updateModelDTO
+        });
+
+        if ( !model )
+            throw new NotFoundException(`Model with id: '${id}' was NOT FOUND`);
+        
+        return model;
     }
 
-    remove(id: number) 
+    async remove(id: number) 
     {
-        return `This action removes a #${id} model`;
+        const model = await this.findOne(id);
+
+        return this.modelRepository.remove(model);
     }
 }
