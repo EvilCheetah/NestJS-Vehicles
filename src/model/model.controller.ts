@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ModelService } from './model.service';
 
 import { Model } from './entities/model.entity';
-import { CreateModelDto } from './dto/create-model.dto';
-import { UpdateModelDto } from './dto/update-model.dto';
+import { CreateModelDTO } from './dto/create-model.dto';
+import { UpdateModelDTO } from './dto/update-model.dto';
 
 
 @Controller('model')
@@ -12,9 +12,9 @@ export class ModelController
     constructor(private readonly modelService: ModelService) {}
 
     @Post()
-    create(@Body() createModelDto: CreateModelDto): Promise<Model>
+    create(@Body() createModelDTO: CreateModelDTO): Promise<Model>
     {
-        return this.modelService.create(createModelDto);
+        return this.modelService.create(createModelDTO);
     }
 
     @Get()
@@ -30,9 +30,9 @@ export class ModelController
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateModelDto: UpdateModelDto): Promise<Model>
+    update(@Param('id') id: string, @Body() updateModelDTO: UpdateModelDTO): Promise<Model>
     {
-        return this.modelService.update(+id, updateModelDto);
+        return this.modelService.update(+id, updateModelDTO);
     }
 
     @Delete(':id')
