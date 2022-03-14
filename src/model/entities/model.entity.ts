@@ -17,6 +17,6 @@ export class Model
     @JoinColumn({ name: 'make_id' })
     make: Make;
 
-    @RelationId( (model: Model) => model.make )
+    @Column()
     make_id: number;
 }
